@@ -1,5 +1,7 @@
 # InterviewBitChallenges
 
+<img src='http://i.imgur.com/jnGyf4v.gif' title='Video Walkthrough' width='' alt='Video Walkthrough' />
+
 Checkpoint 1:
     O(n)
 
