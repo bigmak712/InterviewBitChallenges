@@ -1,6 +1,9 @@
 <img src='http://i.imgur.com/glXjX0O.gif' title='Video Walkthrough' width='' alt='Video Walkthrough' />
 
+Arrays
+
 Kth Row of Pascal's Triangle
+
 public class Solution {
 	public ArrayList<Integer> getRow(int a) {
 	    int[][]arr = new int[a+1][a+1];
@@ -19,3 +22,88 @@ public class Solution {
 	    return list;
 	}
 }
+
+Find Duplicate in Array
+
+public class Solution {
+	// DO NOT MODIFY THE LIST
+	public int repeatedNumber(final List<Integer> a) {
+	    int[]arr = new int[a.size()];
+	    for(int val : a) {
+	        if (arr[val] != 0){
+	            return val;
+	        }
+	        else {
+	            arr[val] = 1;
+	        }
+	    }
+	    return -1;
+	}
+}
+
+Strings
+
+Length of Last Word
+
+public class Solution {
+	public int lengthOfLastWord(final String a) {
+	    int[]arr = new int[a.length()];
+	    
+	    if(a.length() == 0){
+	        return 0;
+	    }
+	    if(a.charAt(0) == ' '){
+	        arr[0] = 0;
+	    }
+	    else {
+	        arr[0] = 1;
+	    }
+	    
+	    for(int i = 1; i < a.length(); i++) {
+	        if(a.charAt(i) == ' ') {
+	            arr[i] = 0;
+	        }
+	        else {
+	            arr[i] = arr[i-1] + 1;
+	        }
+	    }
+	    
+	    for(int i = arr.length - 1; i >= 0; i--){
+	        if(arr[i] != 0) {
+	            return arr[i];
+	        }
+	    }
+	    return 0;
+	}
+}
+
+Longest Common Prefix
+
+public class Solution {
+	public String longestCommonPrefix(ArrayList<String> a) {
+	    
+	    StringBuffer buffer = new StringBuffer();
+	    boolean isPrefix = true;
+
+	    if(a.size() == 0) {
+	        return "";
+	    }
+	    
+	    char c;
+	    String word = a.get(0);
+	    for(int i = 0; i < word.length(); i++) {
+	       c = word.charAt(i);
+	       for(int j = 1; j < a.size(); j++) {
+	           String check = a.get(j);
+	           if(check.length() <= i || check.charAt(i) != c) {
+	               return buffer.toString();
+	           }
+	       }
+	       buffer.append(c);
+	    }
+	    return buffer.toString();
+
+	}
+}
+
+
