@@ -1,1 +1,21 @@
+<img src='http://i.imgur.com/glXjX0O.gif' title='Video Walkthrough' width='' alt='Video Walkthrough' />
+
 Kth Row of Pascal's Triangle
+public class Solution {
+	public ArrayList<Integer> getRow(int a) {
+	    int[][]arr = new int[a+1][a+1];
+	    ArrayList<Integer> list = new ArrayList<Integer>();
+	    
+	    for(int row = 0; row <= a; row++) {
+	        arr[row][0] = 1;
+	        for(int col = 1; col <= row; col++) {
+	            arr[row][col] = arr[row-1][col] + arr[row-1][col-1];
+	        }
+	    }
+	    
+	    for(int i = 0; i <= a; i++) {
+	        list.add(arr[a][i]);
+	    }
+	    return list;
+	}
+}
