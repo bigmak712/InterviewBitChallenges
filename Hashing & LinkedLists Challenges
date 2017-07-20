@@ -1,1 +1,60 @@
 
+Hashing
+
+Diffk II
+
+public class Solution {
+	public int diffPossible(final List<Integer> a, int b) {
+	    if(a.size() < 2){
+	        return 0;
+	    }
+	    
+	    HashMap<Integer, Integer> map = new HashMap<Integer, Integer>();
+	    for(int i = 0; i < a.size(); i++) {
+	        int val = a.get(i);
+
+	        if(map.containsKey(val + b) || map.containsKey(val - b)) {
+	            return 1;
+	        }
+	        
+	        map.put(val, 1);
+
+	    }
+	    return 0;
+	}
+}
+
+Anagrams
+public class Solution {
+	public ArrayList<ArrayList<Integer>> anagrams(final List<String> a) {
+	    ArrayList<ArrayList<Integer>> result = new ArrayList<ArrayList<Integer>>();
+	    
+	    ArrayList<int[]> list = new ArrayList<int[]>();
+	    for(int i = 0; i < a.size(); i++) {
+	        int[] arr = new int[26];
+	        list.add(arr);
+	        String temp = a.get(i);
+	        for(int j = 0; j < temp.length(); j++) {
+	            int pos = temp.charAt(j) - 'a';
+	            list.get(i)[pos]++;
+	        }
+	    }
+	    
+	    int[] check = new int[list.size()];
+	    for(int i = 0; i < check.length; i++) {
+	        if(check[i] == 0) {
+	            check[i] = 1;
+	            ArrayList<Integer> tempList = new ArrayList<Integer>();
+	            tempList.add(i + 1);
+	            for(int j = i + 1; j < check.length; j++) {
+	                if(Arrays.equals(list.get(i), list.get(j))) {
+	                    tempList.add(j + 1);
+	                    check[j] = 1;
+	                }
+	            }
+	            result.add(tempList);
+	        }
+	    }
+	    return result;
+	}
+}
