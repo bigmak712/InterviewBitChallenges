@@ -58,3 +58,62 @@ public class Solution {
 	    return result;
 	}
 }
+
+Linked Lists
+
+Remove Duplicates from Sorted List
+
+public class Solution {
+	public ListNode deleteDuplicates(ListNode a) {
+	    if(a == null || a.next == null) {
+	        return a;
+	    }
+	    
+	    ListNode head = new ListNode(a.val);
+	    ListNode prev = head;
+	    ListNode curr = a.next;
+
+	    while(curr != null) {
+	        if(prev.val != curr.val) {
+	            ListNode newNode = new ListNode(curr.val);
+	            prev.next = newNode;
+	            prev = newNode;
+	        }
+	        curr = curr.next;
+	    }
+	    
+	    return head;
+	}
+}
+
+K reverse linked list
+
+public class Solution {
+    public ListNode reverseList(ListNode A, int B) {
+        
+        if(A == null || A.next == null) {return A;}
+        
+        return reverseK(A, B);
+    }
+    public ListNode reverseK(ListNode A, int B) {
+        ListNode currNode = A;
+        ListNode nextNode = null;
+        ListNode prevNode = null;
+        
+        int num = B - 1;
+        
+        while(num >= 0 && currNode != null) {
+            nextNode = currNode.next;
+            currNode.next = prevNode;
+            prevNode = currNode;
+            currNode = nextNode;
+            num--;
+        }
+        
+        if(nextNode != null) {
+            A.next = reverseK(nextNode, B);
+        }
+        
+        return prevNode;
+    }
+}
