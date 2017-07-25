@@ -60,6 +60,58 @@ public class Solution {
 	}
 }
 
+Substring Concatenation
+
+public class Solution {
+    
+    HashMap<String, Integer> words = new HashMap<String, Integer>();
+    
+	public ArrayList<Integer> findSubstring(String a, final List<String> b) {
+	    
+	    HashMap<String, Integer> freq = new HashMap<String, Integer>();
+	    ArrayList<Integer> indices = new ArrayList<Integer>();
+
+	    if(b.size() == 0) { return indices; }
+
+	    int count = b.size();
+	    int length = b.get(0).length();
+	    int concat_length = count*length;
+	    int num_words = 0;
+	    
+	    for(String s : b) {
+	        if(freq.containsKey(s)) {
+	            freq.put(s, freq.get(s) + 1);
+	        }
+	        else {
+	            freq.put(s, 1);
+	        }
+	    }
+	    
+	    for(int i = 0; i <= a.length() - concat_length; i++) {
+	        int start = i;
+	        int end = i + length;
+            HashMap<String, Integer> tempMap = new HashMap<String, Integer>();
+
+	        for(; start <= a.length() - length; start = start + length) {
+	            String sub = a.substring(start, end);
+                if(tempMap.containsKey(sub)) {
+                    tempMap.put(sub, tempMap.get(sub) + 1);
+                }
+                else {
+                    tempMap.put(sub, 1);
+                }
+                end += length;
+                
+                if(freq.entrySet().equals(tempMap.entrySet())) {
+	                indices.add(i);
+	                break;
+	            }   
+	        }
+	    }
+	    return indices;
+	}
+}
+
 Linked Lists
 
 Remove Duplicates from Sorted List
@@ -118,3 +170,105 @@ public class Solution {
         return prevNode;
     }
 }
+
+Add Two Numbers as Lists
+
+public class Solution {
+	public ListNode addTwoNumbers(ListNode a, ListNode b) {
+	    if(a == null) {return b;}
+	    if(b == null) {return a;}
+	    
+	    int carry = 0;
+	    ListNode head = null;
+	    ListNode curr = null;
+
+	    while(a != null || b != null || carry == 1) {
+	        
+	        int sum = carry;
+	        
+	        if(a != null) {
+	            sum += a.val;
+	            a = a.next;
+	        }
+	        
+	        if(b != null) {
+	            sum += b.val;
+	            b = b.next;
+	        }
+	        
+	        carry = 0;
+	        
+	        if(sum >= 10) {
+	            carry = 1;
+	            sum = sum - 10;
+	        }
+	        
+	        ListNode newNode = new ListNode(sum);
+	        
+	        if(head == null) {
+	            head = newNode;
+	            curr = head;
+	        }
+	        else {
+	            curr.next = newNode;
+	            curr = curr.next;
+	        }
+	    }
+	    
+	    return head;
+	}
+}
+
+Remove Nth Node from List End
+
+public class Solution {
+	public ListNode removeNthFromEnd(ListNode a, int b) {
+	    if(a == null || a.next == null) {return null;}
+	    
+	    a = reverse(a);
+	    
+	    ListNode prev = null;
+	    ListNode curr = a;
+	    int count = 1;
+	    while(count < b) {
+	        if(curr == null) {
+	            a = reverse(a);
+	            a = a.next;
+	            return a;
+	        }
+	        prev = curr;
+	        curr = curr.next;
+	        count++;
+	    }
+	    if(prev != null && curr != null) {
+	        prev.next = curr.next;
+	        curr.next = null;
+	    }
+	    else if(prev == null) {
+	        a = a.next;
+	    }
+	   
+	    a = reverse(a);
+	    
+	    if(curr == null) {
+	        a = a.next;
+	    }
+	    
+	    return a;
+	}
+	public static ListNode reverse(ListNode node) {
+	    ListNode prev = null;
+	    ListNode curr = node;
+	    ListNode next = null;
+	    
+	    while(curr != null) {
+	        next = curr.next;
+	        curr.next = prev;
+	        prev = curr;
+	        curr = next;
+	    }
+	    node = prev;
+	    return node;
+	}
+}
+
