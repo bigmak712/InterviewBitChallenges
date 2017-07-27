@@ -1,1 +1,210 @@
+Trees
 
+Preorder Traversal
+
+  public class Solution {
+    public ArrayList<Integer> preorderTraversal(TreeNode a) {
+        ArrayList<Integer> list = new ArrayList<Integer>();
+        Stack<TreeNode> stack = new Stack<TreeNode>();
+
+        if(a == null) { return list; }
+
+        stack.push(a);
+
+        while(!stack.isEmpty()) {
+            TreeNode temp = stack.pop();
+            list.add(temp.val);
+
+            if(temp.right != null) { stack.push(temp.right); }
+            if(temp.left != null) { stack.push(temp.left); }
+        }
+        return list;
+    }
+  }
+
+Postorder Traversal
+
+  public class Solution {
+    public ArrayList<Integer> postorderTraversal(TreeNode a) {
+        ArrayList<Integer> list = new ArrayList<Integer>();
+        Stack<TreeNode> stack = new Stack<TreeNode>();
+
+        if(a == null) { return list; }
+
+        stack.push(a);
+
+        TreeNode prev = null;
+
+        while(!stack.empty()) {
+            TreeNode temp = stack.peek();
+
+              if(prev == null || prev.left == temp || prev.right == temp) {
+                  if(temp.left != null) {
+                      stack.push(temp.left);
+                  }
+                  else if(temp.right != null) {
+                      stack.push(temp.right);
+                  }
+                  else {
+                      list.add(temp.val);
+                      stack.pop();
+                  }
+              }
+              else if(temp.left == prev) {
+                  if(temp.right != null) {
+                      stack.push(temp.right);
+                  }
+                  else {
+                      list.add(temp.val);
+                      stack.pop();
+                  }
+              }
+              else if(temp.right == prev) {
+                  list.add(temp.val);
+                  stack.pop();
+              }
+              prev = temp;
+        }
+        return list;
+    }
+  }
+
+Identical Binary Trees
+
+  public class Solution {
+    public int isSameTree(TreeNode a, TreeNode b) {
+        return (checkNode(a, b) == true) ? 1 : 0;
+    }
+    public boolean checkNode(TreeNode a, TreeNode b) {
+        if(a == null && b == null) { return true; }
+        if(a == null || b == null) { return false; }
+
+        if(a.val != b.val) { return false; }
+
+        return checkNode(a.left, b.left) && checkNode(a.right, b.right);
+    }
+  }
+  
+Binary Search
+
+Square Root of Integer
+
+  public class Solution {
+    public int sqrt(int a) {
+        long low = 0;
+        long high = a / 2;
+
+        if(a == 0 || a == 1) { return a; }
+
+        while(low <= high) {
+            long mid = low + ((high - low) / 2);
+            long midSquare = mid * mid;
+
+            if(midSquare == (long)a) {
+                return (int)mid;
+            }
+            else if(midSquare > (long)a) {
+                high = mid - 1;
+            }
+            else {
+                low = mid + 1;
+            }
+        }
+        return (int)high;
+    }
+  }
+
+Sorted Insert Position
+
+  public class Solution {
+    public int searchInsert(ArrayList<Integer> a, int b) {
+        int left = 0;
+        int right = a.size() - 1;
+
+        while(left <= right) {
+            int mid = left + ((right - left) / 2);
+
+              if(a.get(mid) == b) {
+                  return mid;
+              }
+              else if (a.get(mid) > b) {
+                  right = mid - 1;
+              }
+              else {
+                  left = mid + 1;
+              }
+        }
+        return left;
+    }
+  }
+
+Heaps and Maps
+
+Magician and Chocolates
+
+  public class Solution {
+      public int nchoc(int A, ArrayList<Integer> B) {
+
+          PriorityQueue<Integer> chocolates = new PriorityQueue<Integer>(new Comparator<Integer>(){
+              public int compare(Integer a, Integer b) {
+                  return -1 * a.compareTo(b);
+              }  
+          });
+          int numChocolates = 0;
+          int mod = (int)Math.pow(10, 9) + 7;
+
+          for(int i = 0; i < B.size(); i++) {
+              chocolates.add(B.get(i));
+          }
+
+          for(int i = 0; i < A; i++) {
+              int choc = chocolates.poll();
+              numChocolates = ((choc % mod) + numChocolates) % mod;
+              chocolates.add(choc / 2);
+          }
+
+          return numChocolates % mod;
+      }
+  }
+
+Distinct Numbers in Window
+
+  public class Solution {
+      public ArrayList<Integer> dNums(ArrayList<Integer> A, int B) {
+          ArrayList<Integer> windows = new ArrayList<Integer>();
+          HashMap<Integer, Integer> map = new HashMap<Integer, Integer>();
+          int distinctCount = 0;
+
+          for(int i = 0; i < B; i++) {
+              if(map.containsKey(A.get(i))) {
+                  map.put(A.get(i), map.get(A.get(i)) + 1);
+              }
+              else {
+                  map.put(A.get(i), 1);
+                  distinctCount++;
+              }
+          }
+
+          windows.add(distinctCount);
+
+          for(int i = B; i < A.size(); i++) {
+              if(map.get(A.get(i - B)) == 1) {
+                  map.remove(A.get(i - B));
+                  distinctCount--;
+              }
+              else {
+                  map.put(A.get(i - B), map.get(A.get(i - B)) - 1);
+              }
+
+              if(!map.containsKey(A.get(i))) {
+                  map.put(A.get(i), 1);
+                  distinctCount++;
+              }
+              else {
+                  map.put(A.get(i), map.get(A.get(i)) + 1);
+              }
+              windows.add(distinctCount);
+          }
+          return windows;
+      }
+  }
